@@ -14,18 +14,23 @@ except ImportError:
 
 RELAY_PIN = 23
 STATE = False
-if len(sys.argv) < 2:
-    print("Usage: relay (open|close) [gpio_pin]");
-    sys.exit();
-else:
-    STATE = True if sys.argv[1].lower() == 'close' else False;
-    print("Opening" if STATE else "Closing");
 
-if len(sys.argv) == 3:
-    RELAY_PIN = int(sys.argv[2]);
+def set_relay_pin(pin_id):
+  if pin_id: 
+    RELAY_PIN = pin_id
 
-if not SHOULD_FAKE:
-    GPIO.setmode(GPIO.BCM);
-    GPIO.setup(RELAY_PIN, GPIO.OUT);
-    GPIO.output(RELAY_PIN, STATE);
-sys.exit();
+# if len(sys.argv) < 2:
+#     print("Usage: relay (open|close) [gpio_pin]");
+#     sys.exit();
+# else:
+
+def set_state(state):
+  STATE = True if state.lower() == 'close' else False;
+  print("Opening" if STATE else "Closing");
+
+def trigger_relay(state):
+  set_state(state)
+  if not SHOULD_FAKE:
+      GPIO.setmode(GPIO.BCM);
+      GPIO.setup(RELAY_PIN, GPIO.OUT);
+      GPIO.output(RELAY_PIN, STATE);

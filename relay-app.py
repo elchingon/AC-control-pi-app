@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import requests
 import json
+import relay
 
 api_url="http://192.168.1.27:5000"
 api_key=""
@@ -20,11 +21,15 @@ json_resp = r.json()
 id1_temp = float(json_resp['temp_1'])
 id2_temp = float(json_resp['temp_2'])
 
-
 if id1_temp >= id1_max and id2_temp >= id2_max:
   print("Compressor on")
+  relay.trigger_relay("open")
 elif id1_temp <= id1_min and id2_temp <= id2_min:
   print("Compressor off")
+  relay.trigger_relay("close")
 
 print("Temp1:"+str(id1_temp))
 print("Temp2:"+str(id2_temp))
+
+sleep 10
+relay.trigger_relay("close")
