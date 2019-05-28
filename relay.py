@@ -7,9 +7,9 @@ global SHOULD_FAKE
 SHOULD_FAKE = False
 
 try:
-    import RPi.GPIO as GPIO
+  import RPi.GPIO as GPIO
 except ImportError:
-    SHOULD_FAKE = True
+  SHOULD_FAKE = True
 
 
 RELAY_PIN = 23
