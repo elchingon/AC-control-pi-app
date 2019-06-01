@@ -4,31 +4,36 @@ import json
 import time
 import relay
 
-api_url="http://raspberrypi.local:5000"
 api_key=""
 id1_max=26
 id2_max=26
+id3_max=26
 id1_min=24
 id2_min=24
+id3_min=24
+
+
+def temperature_request api_url:  
+  query_url = api_url
+  r = requests.get(query_url)
+  if r.status_code != 200:
+  print "Error:", r.status_code
+      
+  json_resp = r.json()
+  id1_temp = float(json_resp['temp_1'])
+  return id1_temp
 
 if __name__ == '__main__':
   try:
     while True:  
-      query_url = api_url
-      r = requests.get(query_url)
-      if r.status_code != 200:
-        print "Error:", r.status_code
+      id1_temp = temperature_request('http://temp1.local:4444')
+      id2_temp = temperature_request('http://temp2.local:4446')
+      id3_temp = temperature_request('http://temp3.local:4447')
       
-      
-      json_resp = r.json()
-      
-      id1_temp = float(json_resp['temp_1'])
-      id2_temp = float(json_resp['temp_2'])
-      
-      if id1_temp >= id1_max and id2_temp >= id2_max:
+      if id1_temp >= id1_max and id2_temp >= id2_max and id3_temp >= id3_max:
         print("Compressor on")
         relay.trigger_relay(False)
-      elif id1_temp <= id1_min and id2_temp <= id2_min:
+      elif id1_temp <= id1_min and id2_temp <= id2_min and id3_temp >= id3_min:
         print("Compressor off")
         relay.trigger_relay(True)
       
