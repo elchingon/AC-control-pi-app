@@ -23,7 +23,7 @@ def temperature_request(api_url):
   id1_temp = float(json_resp['temp_1'])
   return id1_temp
 
-def run_ac_control:
+def run_ac_control():
   while True:  
     id1_temp = temperature_request('http://temp1.local:4444')
     id2_temp = temperature_request('http://temp2.local:4446')
