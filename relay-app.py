@@ -30,6 +30,10 @@ def run_ac_control():
       id2_temp = temperature_request('http://temp2.local:4446')
       id3_temp = temperature_request('http://temp3.local:4447')
       
+      relay.trigger_relay(False, 17)
+      relay.trigger_relay(False, 27)
+      relay.trigger_relay(False, 22)
+      
       if id1_temp >= id1_max and id2_temp >= id2_max and id3_temp >= id3_max:
         print("Compressor on")
         relay.trigger_relay(False, 23)
