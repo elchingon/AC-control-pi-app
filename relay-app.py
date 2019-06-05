@@ -23,38 +23,45 @@ def temperature_request(api_url):
   id1_temp = float(json_resp['temp_1'])
   return id1_temp
 
+def run_ac_control:
+  while True:  
+    id1_temp = temperature_request('http://temp1.local:4444')
+    id2_temp = temperature_request('http://temp2.local:4446')
+    id3_temp = temperature_request('http://temp3.local:4447')
+    
+    if id1_temp >= id1_max and id2_temp >= id2_max and id3_temp >= id3_max:
+      print("Compressor on")
+      relay.trigger_relay(False, 23)
+      relay.trigger_relay(False, 24)
+      relay.trigger_relay(False, 25)
+    elif id1_temp <= id1_min and id2_temp <= id2_min and id3_temp >= id3_min:
+      print("Compressor off")
+      relay.trigger_relay(True, 23)
+      relay.trigger_relay(True, 24)
+      relay.trigger_relay(True, 25)
+    
+    print("Temp1:"+str(id1_temp))
+    print("Temp2:"+str(id2_temp))
+    print("Temp3:"+str(id3_temp))
+    
+    time.sleep(5)
+    #relay.trigger_relay(True)
+
 if __name__ == '__main__':
   try:
-    while True:  
-      id1_temp = temperature_request('http://temp1.local:4444')
-      id2_temp = temperature_request('http://temp2.local:4446')
-      id3_temp = temperature_request('http://temp3.local:4447')
-      
-      if id1_temp >= id1_max and id2_temp >= id2_max and id3_temp >= id3_max:
-        print("Compressor on")
-        relay.trigger_relay(False, 23)
-        relay.trigger_relay(False, 24)
-        relay.trigger_relay(False, 25)
-      elif id1_temp <= id1_min and id2_temp <= id2_min and id3_temp >= id3_min:
-        print("Compressor off")
-        relay.trigger_relay(True, 23)
-        relay.trigger_relay(True, 24)
-        relay.trigger_relay(True, 25)
-      
-      print("Temp1:"+str(id1_temp))
-      print("Temp2:"+str(id2_temp))
-      print("Temp3:"+str(id3_temp))
-      
-      time.sleep(5)
-      #relay.trigger_relay(True)
+    run_ac_control()
   except requests.exceptions.RequestException as err:
     print ("OOps: Something Else",err)
+    run_ac_control()
   except requests.exceptions.HTTPError as errh:
     print ("Http Error:",errh)
+    run_ac_control()
   except requests.exceptions.ConnectionError as errc:
     print ("Error Connecting:",errc)
+    run_ac_control()
   except requests.exceptions.Timeout as errt:
     print ("Timeout Error:",errt)     
+    run_ac_control()
   except KeyboardInterrupt:
     print "Quit"
-
+    sys.exit(1)
