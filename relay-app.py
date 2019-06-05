@@ -44,7 +44,7 @@ def run_ac_control():
     print("Temp2:"+str(id2_temp))
     print("Temp3:"+str(id3_temp))
     
-    time.sleep(5)
+    time.sleep(10)
     #relay.trigger_relay(True)
 
 if __name__ == '__main__':
@@ -52,16 +52,19 @@ if __name__ == '__main__':
     run_ac_control()
   except requests.exceptions.RequestException as err:
     print ("OOps: Something Else",err)
-    run_ac_control()
+    time.sleep(5)
+    continue
   except requests.exceptions.HTTPError as errh:
     print ("Http Error:",errh)
-    run_ac_control()
+    time.sleep(5)
+    continue
   except requests.exceptions.ConnectionError as errc:
     print ("Error Connecting:",errc)
-    run_ac_control()
+    time.sleep(5)
+    continue
   except requests.exceptions.Timeout as errt:
     print ("Timeout Error:",errt)     
-    run_ac_control()
+    time.sleep(5)
+    continue
   except KeyboardInterrupt:
     print "Quit"
-    sys.exit(1)
