@@ -30,7 +30,8 @@ def set_state(state):
 
 def trigger_relay(state, pin = RELAY_PIN):
   if not SHOULD_FAKE:
-      GPIO.setwarnings(False)
-      GPIO.setmode(GPIO.BCM);
-      GPIO.setup(pin, GPIO.OUT);
-      GPIO.output(pin, state);
+    GPIO.setwarnings(False)
+    GPIO.setmode(GPIO.BCM);
+    GPIO.setup(pin, GPIO.OUT);
+    GPIO.output(pin, state);
+    time.sleep(2)

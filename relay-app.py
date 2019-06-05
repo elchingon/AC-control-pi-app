@@ -20,8 +20,8 @@ def temperature_request(api_url):
     print "Error:", r.status_code
       
   json_resp = r.json()
-  id1_temp = float(json_resp['temp_1'])
-  return id1_temp
+  id_temp = float(json_resp['temp_1'])
+  return id_temp
 
 def run_ac_control():
   while True:  
