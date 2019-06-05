@@ -8,9 +8,9 @@ api_key=""
 id1_max=25
 id2_max=25
 id3_max=25
-id1_min=23
-id2_min=23
-id3_min=23
+id1_min=24
+id2_min=24
+id3_min=24
 
 
 def temperature_request(api_url):  
@@ -39,7 +39,7 @@ def run_ac_control():
         relay.trigger_relay(False, 23)
         relay.trigger_relay(False, 24)
         relay.trigger_relay(False, 25)
-      elif id1_temp <= id1_min and id2_temp <= id2_min and id3_temp >= id3_min:
+      elif id1_temp <= id1_min and id2_temp <= id2_min and id3_temp <= id3_min:
         print("Compressor off")
         relay.trigger_relay(True, 23)
         relay.trigger_relay(True, 24)
