@@ -28,9 +28,9 @@ def set_state(state):
   STATE = True if state.lower() == 'close' else False;
   print("Opening" if STATE else "Closing");
 
-def trigger_relay(state):
+def trigger_relay(state, pin = RELAY_PIN):
   if not SHOULD_FAKE:
       GPIO.setwarnings(False)
       GPIO.setmode(GPIO.BCM);
-      GPIO.setup(RELAY_PIN, GPIO.OUT);
-      GPIO.output(RELAY_PIN, state);
+      GPIO.setup(pin, GPIO.OUT);
+      GPIO.output(pin, state);
