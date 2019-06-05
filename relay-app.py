@@ -49,7 +49,7 @@ def run_ac_control():
       print("Temp2:"+str(id2_temp))
       print("Temp3:"+str(id3_temp))
       
-      time.sleep(10)
+      time.sleep(5)
     except requests.exceptions.RequestException as err:
       print ("OOps: Something Else",err)
       time.sleep(5)
