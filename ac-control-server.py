@@ -1,34 +1,42 @@
-#!/usr/bin/env python
+#!/usr/bin/python
+#--------------------------------------
+#
+#              ds18b20.py
+#  Read DS18B20 1-wire temperature sensor
+#--------------------------------------
+
+from flask import Flask, jsonify, Response, request, render_template
+import temperature_request
 import requests
 import json
-import time
-import relay
-
-api_key=""
-id1_max=25
-id2_max=25
-id3_max=25
-id1_min=24
-id2_min=24
-id3_min=24
 
 
-def temperature_request(api_url):  
+app = Flask(__name__)
+
+
+@app.route("/")
+def index():
+  id1_temp = temperature_request('http://v2temp1.local:5555')
+  id2_temp = temperature_request('http://v2temp1.local:5555')
+  
+  return render_template("index.html", temp_1=id1_temp, temp_2=id2_temp)
+
+def temperature_request(api_url, index = 1):  
   query_url = api_url
   r = requests.get(query_url)
   if r.status_code != 200:
-    print "Error:", r.status_code
+    print("Error:", r.status_code)
       
   json_resp = r.json()
-  id_temp = float(json_resp['temp_1'])
+  id_temp = float(json_resp['temp_' + str(index)])
   return id_temp
 
 def run_ac_control():
   while True:  
     try:
-      id1_temp = temperature_request('http://v2temp1.local:5555')
-      id2_temp = temperature_request('http://v2temp1.local:5555')
-      id3_temp = temperature_request('http://v2temp1.local:5555')
+      id1_temp = temperature_request('http://temp1.local:4444')
+      id2_temp = temperature_request('http://temp2.local:4446')
+      id3_temp = temperature_request('http://temp3.local:4447')
       
       relay.trigger_relay(False, 17)
       relay.trigger_relay(False, 27)
@@ -67,9 +75,10 @@ def run_ac_control():
       time.sleep(5)
       continue
     except KeyboardInterrupt:
-      print ("Quit")
+      print("Quit")
     #relay.trigger_relay(True)
 
+
 if __name__ == '__main__':
-  run_ac_control()
+  app.run(host='0.0.0.0', port=5001)
   
