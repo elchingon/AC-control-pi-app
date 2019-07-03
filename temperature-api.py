@@ -59,7 +59,7 @@ def combined_temps():
   id1_temp = formatted_temp(id1)
   id2 = os.environ["id2"]
 
-  if id2 != null:
+  if id2 != '':
     id2_temp = formatted_temp(id2)
     return jsonify(temp_1='{:.3f}'.format(id1_temp),
                   temp_2='{:.3f}'.format(id2_temp))
