@@ -17,9 +17,10 @@ app = Flask(__name__)
 @app.route("/")
 def index():
   id1_temp = temperature_request('http://v2temp1.local:5555')
-  id2_temp = temperature_request('http://v2temp1.local:5555')
+  id2_temp = temperature_request('http://v2temp2.local:5556')
+  id3_temp = temperature_request('http://v2temp3.local:5557')
   
-  return render_template("index.html", temp_1=id1_temp, temp_2=id2_temp)
+  return render_template("index.html", temp_1=id1_temp, temp_2=id2_temp, temp_3=id3_temp)
 
 def temperature_request(api_url, index = 1):  
   query_url = api_url
